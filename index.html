@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ducks Pond Games</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =====================================================
+       THE BASEMENT (shown after the logo intro)
+       ===================================================== -->
+  <div id="scene" aria-hidden="true">
+    <svg id="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#5d6160"/>
+          <stop offset="1" stop-color="#3a3e3d"/>
+        </linearGradient>
+        <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2d302f"/>
+          <stop offset="1" stop-color="#151716"/>
+        </linearGradient>
+        <linearGradient id="stainGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1c2422" stop-opacity="0.65"/>
+          <stop offset="1" stop-color="#1c2422" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#22364a"/>
+          <stop offset="1" stop-color="#0c141c"/>
+        </linearGradient>
+        <linearGradient id="shaftGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#9fc4e8" stop-opacity="0.30"/>
+          <stop offset="1" stop-color="#9fc4e8" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="warmGrad" gradientUnits="userSpaceOnUse" cx="800" cy="130" r="950">
+          <stop offset="0" stop-color="#ffd65a" stop-opacity="0.80"/>
+          <stop offset="0.35" stop-color="#ffb428" stop-opacity="0.30"/>
+          <stop offset="1" stop-color="#ffa014" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="darkGrad" gradientUnits="userSpaceOnUse" cx="800" cy="130" r="1150">
+          <stop offset="0" stop-color="#000" stop-opacity="0.05"/>
+          <stop offset="0.35" stop-color="#000" stop-opacity="0.55"/>
+          <stop offset="0.7" stop-color="#000" stop-opacity="0.88"/>
+          <stop offset="1" stop-color="#000" stop-opacity="0.96"/>
+        </radialGradient>
+        <radialGradient id="bulbGrad">
+          <stop offset="0" stop-color="#fffbe0" stop-opacity="1"/>
+          <stop offset="0.3" stop-color="#ffe070" stop-opacity="0.85"/>
+          <stop offset="1" stop-color="#ffc030" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="vigGrad" cx="50%" cy="50%" r="75%">
+          <stop offset="0.5" stop-color="#000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#000" stop-opacity="0.7"/>
+        </radialGradient>
+        <pattern id="blocks" width="260" height="280" patternUnits="userSpaceOnUse">
+          <path d="M0 0 H260 M0 140 H260 M0 0 V140 M130 140 V280" fill="none" stroke="#000" stroke-opacity="0.28" stroke-width="3"/>
+        </pattern>
+        <filter id="noise" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/>
+          <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <filter id="blur20" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="20"/></filter>
+        <filter id="blur6" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+      </defs>
+
+      <!-- Concrete wall -->
+      <rect width="1600" height="700" fill="url(#wallGrad)"/>
+      <rect width="1600" height="700" fill="url(#blocks)"/>
+      <rect x="980" y="0" width="46" height="520" fill="url(#stainGrad)" opacity="0.5"/>
+      <rect x="1420" y="0" width="30" height="380" fill="url(#stainGrad)" opacity="0.4"/>
+      <rect x="560" y="0" width="22" height="300" fill="url(#stainGrad)" opacity="0.35"/>
+      <ellipse cx="520" cy="540" rx="140" ry="64" fill="#1a201e" opacity="0.28" filter="url(#blur20)"/>
+      <path d="M640 0 L656 90 L632 170 L660 260 L646 330" fill="none" stroke="#151515" stroke-opacity="0.6" stroke-width="3"/>
+      <path d="M1372 700 L1354 610 L1386 540 L1362 470" fill="none" stroke="#151515" stroke-opacity="0.55" stroke-width="3"/>
+
+      <!-- Floor -->
+      <rect y="700" width="1600" height="200" fill="url(#floorGrad)"/>
+      <rect y="696" width="1600" height="8" fill="#101212"/>
+      <ellipse cx="860" cy="800" rx="170" ry="26" fill="#0d1312" opacity="0.65"/>
+
+      <!-- Concrete grain over everything -->
+      <rect width="1600" height="900" filter="url(#noise)" opacity="0.3" style="mix-blend-mode: overlay"/>
+
+      <!-- The window, top left -->
+      <g id="window">
+        <rect x="110" y="60" width="320" height="170" fill="url(#glassGrad)" stroke="#2b2e2e" stroke-width="12"/>
+        <rect x="186" y="60" width="8" height="170" fill="#1b1d1d"/>
+        <rect x="266" y="60" width="8" height="170" fill="#1b1d1d"/>
+        <rect x="346" y="60" width="8" height="170" fill="#1b1d1d"/>
+        <rect x="116" y="66" width="308" height="158" fill="#2b2a22" opacity="0.35"/>
+        <path d="M130 70 L170 70 L130 112 Z" fill="none" stroke="#fff" stroke-opacity="0.18" stroke-width="2"/>
+        <path d="M130 70 L156 96 M130 70 L148 70 M130 70 L130 94" stroke="#fff" stroke-opacity="0.18" stroke-width="1.5"/>
+      </g>
+
+      <!-- The dirty mattress, bottom left -->
+      <g id="mattress">
+        <polygon points="70,790 450,770 520,828 40,856" fill="#6d6757"/>
+        <polygon points="40,856 520,828 520,850 40,882" fill="#413d34"/>
+        <ellipse cx="240" cy="808" rx="72" ry="14" fill="#3f3220" opacity="0.55" transform="rotate(-3 240 808)"/>
+        <ellipse cx="380" cy="800" rx="40" ry="9" fill="#26261a" opacity="0.55"/>
+        <path d="M120 826 q30 -10 60 4 q-8 14 -40 10 q-20 -2 -20 -14 z" fill="#5a2f1c" opacity="0.5"/>
+        <path d="M110 800 L470 780 M95 818 L490 798" stroke="#4d483c" stroke-width="2" stroke-dasharray="14 10" opacity="0.7" fill="none"/>
+        <path d="M430 800 l24 8 l-10 11 z" fill="#2a2620"/>
+      </g>
+
+      <!-- The guy, passed out against the wall -->
+      <g id="guy">
+        <ellipse cx="1260" cy="698" rx="160" ry="16" fill="#000" opacity="0.4"/>
+        <path d="M1254 682 L1236 588" stroke="#26324a" stroke-width="44" stroke-linecap="round" fill="none"/>
+        <path d="M1236 588 L1222 684" stroke="#26324a" stroke-width="40" stroke-linecap="round" fill="none"/>
+        <path d="M1196 696 q4 -22 30 -22 q26 0 34 22 z" fill="#17171a"/>
+        <path d="M1232 692 C1210 640 1214 566 1246 524 C1278 500 1326 510 1336 562 C1344 612 1326 662 1316 692 Z" fill="#4a5a6b"/>
+        <path d="M1250 540 C1262 600 1262 650 1256 692" stroke="#3b4856" stroke-width="3" fill="none" opacity="0.7"/>
+        <path d="M1322 548 C1352 600 1356 650 1340 690" stroke="#4a5a6b" stroke-width="34" stroke-linecap="round" fill="none"/>
+        <circle cx="1340" cy="694" r="15" fill="#c9a283"/>
+        <path d="M1240 680 L1196 596" stroke="#2f3d57" stroke-width="46" stroke-linecap="round" fill="none"/>
+        <path d="M1196 596 L1160 686" stroke="#2f3d57" stroke-width="42" stroke-linecap="round" fill="none"/>
+        <path d="M1128 698 q6 -24 36 -24 q30 0 38 24 z" fill="#1c1c20"/>
+        <g id="guy-head" transform="rotate(14 1270 530)">
+          <rect x="1256" y="500" width="28" height="40" fill="#b88f72"/>
+          <circle cx="1270" cy="476" r="40" fill="#c9a283"/>
+          <path d="M1230 470 C1228 430 1262 414 1288 420 C1314 428 1312 458 1308 470 C1296 448 1260 446 1230 470 Z" fill="#1f1a17"/>
+          <ellipse cx="1258" cy="492" rx="12" ry="4" fill="#5a3f4a" opacity="0.25"/>
+          <ellipse cx="1286" cy="492" rx="12" ry="4" fill="#5a3f4a" opacity="0.25"/>
+          <path d="M1248 482 q10 8 20 0" stroke="#2a1f1a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M1276 482 q10 8 20 0" stroke="#2a1f1a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M1262 506 q10 4 20 0" stroke="#7a4b43" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </g>
+      </g>
+
+      <!-- The bare bulb -->
+      <g id="bulb">
+        <line x1="800" y1="0" x2="800" y2="128" stroke="#0e0e0e" stroke-width="5"/>
+        <rect x="788" y="124" width="24" height="26" rx="3" fill="#1b1b1b"/>
+        <ellipse cx="800" cy="170" rx="19" ry="26" fill="#ffe27a" id="bulb-glass"/>
+        <circle id="bulb-core" cx="800" cy="170" r="120" fill="url(#bulbGrad)"/>
+      </g>
+
+      <!-- Lighting: warm light, then darkness, then blackout -->
+      <rect id="warm" width="1600" height="900" fill="url(#warmGrad)" style="mix-blend-mode: screen"/>
+      <rect id="darkness" width="1600" height="900" fill="url(#darkGrad)"/>
+      <rect id="blackout" width="1600" height="900" fill="#000"/>
+
+      <!-- Cold light from the window, always faintly there -->
+      <g id="moon" style="mix-blend-mode: screen">
+        <polygon points="118,224 422,224 760,700 380,700" fill="url(#shaftGrad)"/>
+        <rect x="118" y="68" width="304" height="156" fill="#8fb4da" opacity="0.30"/>
+      </g>
+
+      <rect id="vignette" width="1600" height="900" fill="url(#vigGrad)"/>
+    </svg>
+
+    <div id="dust"></div>
+    <div id="sparks"></div>
+  </div>
+
+  <!-- Eyes that open in the dark (used by the Start animation) -->
+  <div id="eyes" aria-hidden="true">
+    <div class="eye" id="eye-l"></div>
+    <div class="eye" id="eye-r"></div>
+  </div>
+  <div id="flash" aria-hidden="true"></div>
+
+  <!-- =====================================================
+       THE MENU
+       ===================================================== -->
+  <main id="menu">
+    <h1 id="game-title" hidden></h1>
+    <nav aria-label="Main menu">
+      <button class="menu-btn" id="btn-start" type="button">Start</button>
+      <button class="menu-btn" id="btn-how" type="button">How To Play</button>
+      <button class="menu-btn" id="btn-settings" type="button">Settings</button>
+    </nav>
+  </main>
+
+  <!-- How To Play -->
+  <section id="panel-how" class="panel" role="dialog" aria-modal="true" aria-labelledby="how-title" hidden>
+    <div class="panel-box">
+      <h2 id="how-title">How To Play</h2>
+      <ul id="how-list"></ul>
+      <button class="panel-close" type="button">Back</button>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="panel-settings" class="panel" role="dialog" aria-modal="true" aria-labelledby="set-title" hidden>
+    <div class="panel-box">
+      <h2 id="set-title">Settings</h2>
+      <label class="row"><span>Sound</span><input type="checkbox" id="set-sound" /></label>
+      <label class="row"><span>Volume</span><input type="range" id="set-volume" min="0" max="100" step="5" /></label>
+      <label class="row"><span>Reduce flicker</span><input type="checkbox" id="set-flicker" /></label>
+      <label class="row"><span>Skip logo intro</span><input type="checkbox" id="set-intro" /></label>
+      <p class="note">Reduce flicker softens the flashing light for anyone sensitive to it.</p>
+      <button class="panel-close" type="button">Back</button>
+    </div>
+  </section>
+
+  <footer id="copyright">&copy; Ducks Pond Games 2026</footer>
+
+  <!-- =====================================================
+       THE LOGO INTRO
+       ===================================================== -->
+  <div id="intro" role="presentation">
+    <svg id="logo" viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg" aria-label="Ducks Pond Games logo">
+      <!-- Yellow swirl -->
+      <g id="swirl-g">
+        <path id="swirl" fill="none" stroke="#ffd23f" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Red star, drawn in one line -->
+      <g id="star-g">
+        <circle id="star-ring" cx="285" cy="105" r="12" fill="none" stroke="#e63946" stroke-width="4"/>
+        <path id="star" d="M286 36 L327 161 L219 84 L351 85 L244 161 L287 30" fill="none" stroke="#e63946" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Blue smiley face -->
+      <g id="face-g">
+        <ellipse id="face-body" cx="200" cy="252" rx="64" ry="61" fill="#2f7bff" stroke="#1a4fc0" stroke-width="6" transform="rotate(-4 200 252)"/>
+        <circle id="eye-big" cx="178" cy="236" r="10" fill="#0a1a3d"/>
+        <circle id="eye-small" cx="224" cy="240" r="6" fill="#0a1a3d"/>
+        <path id="smile1" d="M152 268 Q176 300 208 294 Q240 290 254 262" fill="none" stroke="#0a1a3d" stroke-width="6" stroke-linecap="round"/>
+        <path id="smile2" d="M158 272 Q180 292 214 296 Q236 292 250 270" fill="none" stroke="#0a1a3d" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+        <path id="smile3" d="M148 262 L156 272" fill="none" stroke="#0a1a3d" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+      </g>
+    </svg>
+
+    <p id="logo-text" data-text="Ducks Pond Games">Ducks Pond Games</p>
+    <p id="skip-hint">click anywhere to skip</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
