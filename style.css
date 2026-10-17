@@ -1,0 +1,556 @@
+:root {
+  --yellow: #ffd23f;
+  --red: #e63946;
+  --blue: #2f7bff;
+  --paper: #e9e2c8;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  color: var(--paper);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+button { font-family: inherit; }
+
+/* =====================================================
+   LOGO INTRO
+   ===================================================== */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  cursor: pointer;
+  transition: opacity 0.9s ease;
+}
+
+#intro.fade { opacity: 0; }
+#intro.done { display: none; }
+
+#logo {
+  width: min(78vw, 56vh);
+  height: auto;
+  overflow: visible;
+}
+
+/* Yellow swirl: spins in while it draws itself */
+#swirl-g {
+  opacity: 0;
+  transform-origin: 120px 105px;
+  transform: rotate(-220deg) scale(0.5);
+  transition: transform 1.9s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease;
+}
+
+#swirl-g.in { opacity: 1; transform: none; }
+
+#swirl { transition: stroke-dashoffset 1.8s cubic-bezier(0.45, 0, 0.2, 1); }
+#swirl.draw { stroke-dashoffset: 0 !important; }
+
+/* Red star: slams down like a stamp */
+#star-g {
+  opacity: 0;
+  transform-origin: 285px 105px;
+}
+
+#star-g.slam { animation: slam 0.7s cubic-bezier(0.2, 0.9, 0.2, 1.2) forwards; }
+
+@keyframes slam {
+  0%   { opacity: 0; transform: scale(5) rotate(50deg); }
+  55%  { opacity: 1; transform: scale(0.88) rotate(-6deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+#star-ring {
+  opacity: 0;
+  transform-origin: 285px 105px;
+}
+
+#star-g.slam #star-ring { animation: ring 0.7s ease-out 0.35s forwards; }
+
+@keyframes ring {
+  0%   { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(9); }
+}
+
+/* Blue face: blows up like a balloon, then the face scribbles itself on */
+#face-g {
+  transform: scale(0);
+  transform-origin: 200px 252px;
+}
+
+#face-g.inflate { animation: inflate 1s forwards; }
+
+@keyframes inflate {
+  0%   { transform: scale(0); }
+  40%  { transform: scale(1.22, 0.82); }
+  60%  { transform: scale(0.9, 1.1); }
+  80%  { transform: scale(1.05, 0.97); }
+  100% { transform: scale(1); }
+}
+
+#eye-big, #eye-small { transform: scale(0); }
+#eye-big { transform-origin: 178px 236px; }
+#eye-small { transform-origin: 224px 240px; }
+
+#eye-big.pop, #eye-small.pop { animation: eyepop 0.3s ease-out forwards; }
+
+@keyframes eyepop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.6); }
+  100% { transform: scale(1); }
+}
+
+#smile1, #smile2, #smile3 { transition: stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.3, 1); }
+#smile2 { transition-delay: 0.15s; }
+#smile3 { transition-delay: 0.4s; }
+#smile1.draw, #smile2.draw, #smile3.draw { stroke-dashoffset: 0 !important; }
+
+/* The company name glitches in */
+#logo-text {
+  position: relative;
+  margin: 1.4rem 0 0;
+  font: 700 clamp(1.3rem, 4.4vw, 2.6rem) Impact, 'Arial Narrow', sans-serif;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #f2f2f2;
+  opacity: 0;
+}
+
+#logo-text::before,
+#logo-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  letter-spacing: inherit;
+}
+
+#logo-text::before { color: #00e5ff; }
+#logo-text::after { color: #ff2d55; }
+
+#logo-text.glitch-in { opacity: 1; animation: textflicker 1.2s steps(1, end) forwards; }
+#logo-text.glitch-in::before { opacity: 0.9; animation: glitchA 1.2s steps(1, end) forwards; }
+#logo-text.glitch-in::after { opacity: 0.9; animation: glitchB 1.2s steps(1, end) forwards; }
+
+@keyframes textflicker {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  14%  { opacity: 0; }
+  22%  { opacity: 1; }
+  30%  { opacity: 0.2; }
+  38%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes glitchA {
+  0%   { clip-path: inset(0 0 70% 0);  transform: translate(-7px, 0); }
+  12%  { clip-path: inset(40% 0 20% 0); transform: translate(6px, -2px); }
+  24%  { clip-path: inset(70% 0 0 0);  transform: translate(-4px, 2px); }
+  36%  { clip-path: inset(10% 0 55% 0); transform: translate(8px, 0); }
+  48%  { clip-path: inset(55% 0 25% 0); transform: translate(-6px, 1px); }
+  60%  { clip-path: inset(0 0 85% 0);  transform: translate(3px, 0); }
+  75%  { clip-path: inset(30% 0 40% 0); transform: translate(-3px, 0); }
+  100% { clip-path: inset(0 0 100% 0); transform: none; opacity: 0; }
+}
+
+@keyframes glitchB {
+  0%   { clip-path: inset(60% 0 10% 0); transform: translate(7px, 0); }
+  14%  { clip-path: inset(0 0 75% 0);  transform: translate(-6px, 2px); }
+  26%  { clip-path: inset(35% 0 35% 0); transform: translate(5px, -1px); }
+  40%  { clip-path: inset(75% 0 0 0);  transform: translate(-8px, 0); }
+  52%  { clip-path: inset(15% 0 60% 0); transform: translate(4px, 1px); }
+  66%  { clip-path: inset(50% 0 30% 0); transform: translate(-3px, 0); }
+  80%  { clip-path: inset(5% 0 80% 0); transform: translate(2px, 0); }
+  100% { clip-path: inset(0 0 100% 0); transform: none; opacity: 0; }
+}
+
+#logo-text.settled { opacity: 1; animation: none; }
+#logo-text.settled::after { animation: glitchLoop 3.2s steps(1, end) infinite; }
+
+@keyframes glitchLoop {
+  0%, 92% { opacity: 0; }
+  93%     { opacity: 0.8; clip-path: inset(20% 0 55% 0); transform: translate(5px, 0); }
+  96%     { opacity: 0.8; clip-path: inset(60% 0 15% 0); transform: translate(-5px, 0); }
+  100%    { opacity: 0; }
+}
+
+#skip-hint {
+  position: absolute;
+  bottom: 4vh;
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+#skip-hint.show { opacity: 1; }
+
+/* =====================================================
+   THE BASEMENT
+   ===================================================== */
+#scene {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  transform-origin: 50% 50%;
+  background: #000;
+  will-change: transform;
+}
+
+body.title #scene { opacity: 1; }
+
+#room {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Lighting layers start fully dark */
+#warm, #bulb-core, #moon { opacity: 0; }
+#darkness, #blackout { opacity: 1; }
+#moon { opacity: 0.25; }
+#bulb-glass { opacity: 0.12; }
+
+#warm, #darkness, #blackout, #bulb-core, #moon, #bulb-glass {
+  transition: opacity 0.05s linear;
+}
+
+#scene.rf #warm,
+#scene.rf #darkness,
+#scene.rf #blackout,
+#scene.rf #bulb-core,
+#scene.rf #bulb-glass {
+  transition: opacity 1.6s ease-in-out;
+}
+
+/* A flicker: three states of the light */
+#scene[data-light="off"] #warm       { opacity: 0; }
+#scene[data-light="off"] #darkness   { opacity: 1; }
+#scene[data-light="off"] #blackout   { opacity: 0.93; }
+#scene[data-light="off"] #bulb-core  { opacity: 0; }
+#scene[data-light="off"] #bulb-glass { opacity: 0.12; }
+#scene[data-light="off"] #moon       { opacity: 0.22; }
+
+#scene[data-light="dim"] #warm       { opacity: 0.55; }
+#scene[data-light="dim"] #darkness   { opacity: 1; }
+#scene[data-light="dim"] #blackout   { opacity: 0; }
+#scene[data-light="dim"] #bulb-core  { opacity: 0.85; }
+#scene[data-light="dim"] #bulb-glass { opacity: 0.95; }
+#scene[data-light="dim"] #moon       { opacity: 0.4; }
+
+/* A flash of full light: the guy and the mattress show up */
+#scene[data-light="flash"] #warm       { opacity: 1; }
+#scene[data-light="flash"] #darkness   { opacity: 0.42; }
+#scene[data-light="flash"] #blackout   { opacity: 0; }
+#scene[data-light="flash"] #bulb-core  { opacity: 1; }
+#scene[data-light="flash"] #bulb-glass { opacity: 1; }
+#scene[data-light="flash"] #moon       { opacity: 0.45; }
+
+/* Softer light for the reduce-flicker setting */
+#scene[data-light="soft"] #warm       { opacity: 0.75; }
+#scene[data-light="soft"] #darkness   { opacity: 0.85; }
+#scene[data-light="soft"] #blackout   { opacity: 0; }
+#scene[data-light="soft"] #bulb-core  { opacity: 0.95; }
+#scene[data-light="soft"] #bulb-glass { opacity: 1; }
+#scene[data-light="soft"] #moon       { opacity: 0.4; }
+
+/* Dust floating in the light */
+#dust {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s linear;
+}
+
+#scene[data-light="dim"] #dust,
+#scene[data-light="soft"] #dust { opacity: 0.8; }
+#scene[data-light="flash"] #dust { opacity: 1; }
+
+.mote {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 236, 170, 0.8);
+  animation: drift linear infinite;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(30px, 70px); }
+}
+
+/* Sparks when the bulb bursts */
+#sparks { position: absolute; inset: 0; pointer-events: none; }
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffe9a0;
+  box-shadow: 0 0 8px 3px rgba(255, 210, 90, 0.9);
+  animation: spark 0.9s ease-out forwards;
+}
+
+@keyframes spark {
+  from { transform: translate(0, 0) scale(1); opacity: 1; }
+  to   { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+}
+
+/* =====================================================
+   THE MENU
+   ===================================================== */
+#menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease, transform 0.6s ease;
+}
+
+#menu.show { opacity: 1; pointer-events: auto; }
+#menu.leaving { opacity: 0; transform: scale(0.96); pointer-events: none; transition: opacity 0.6s ease, transform 0.6s ease; }
+
+#game-title {
+  margin: 0 0 2rem;
+  font: 700 clamp(2rem, 7vw, 4rem) Impact, 'Arial Narrow', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper);
+  text-shadow: 0 0 22px rgba(255, 210, 63, 0.35);
+}
+
+#menu nav { display: flex; flex-direction: column; align-items: center; }
+
+.menu-btn {
+  position: relative;
+  display: block;
+  width: min(78vw, 22rem);
+  margin: 0.8rem 0;
+  padding: 0.9rem 1rem 0.9rem 2.4rem;
+  font-size: clamp(1.1rem, 3.4vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--paper);
+  background: rgba(8, 8, 8, 0.55);
+  border: 2px solid rgba(233, 226, 200, 0.5);
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease, border-color 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease, opacity 0.05s linear;
+}
+
+.menu-btn::before {
+  content: '\25B6';
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%) scale(0.8);
+  opacity: 0;
+  font-size: 0.8em;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.menu-btn:hover,
+.menu-btn:focus-visible {
+  outline: none;
+  color: #111;
+  background: var(--yellow);
+  border-color: var(--yellow);
+  transform: translateX(6px);
+  box-shadow: 0 0 24px rgba(255, 210, 63, 0.55);
+}
+
+.menu-btn:hover::before,
+.menu-btn:focus-visible::before {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.menu-btn:active { transform: translateX(6px) scale(0.98); }
+
+/* The menu dims a little whenever the light dies */
+body[data-light="off"] .menu-btn { opacity: 0.4; }
+body[data-light="flash"] .menu-btn { text-shadow: 0 0 10px rgba(255, 220, 120, 0.4); }
+
+/* =====================================================
+   PANELS: HOW TO PLAY AND SETTINGS
+   ===================================================== */
+.panel {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  animation: panelin 0.25s ease-out;
+}
+
+.panel[hidden] { display: none; }
+
+@keyframes panelin {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.panel-box {
+  width: min(92vw, 34rem);
+  max-height: 86vh;
+  overflow: auto;
+  padding: 1.6rem 1.8rem;
+  background: rgba(16, 16, 15, 0.94);
+  border: 2px solid rgba(233, 226, 200, 0.55);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+}
+
+.panel-box h2 {
+  margin: 0 0 1rem;
+  font: 700 1.6rem Impact, 'Arial Narrow', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+
+#how-list { margin: 0 0 1.4rem; padding-left: 1.2rem; line-height: 1.7; }
+#how-list li { margin: 0.5rem 0; }
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(233, 226, 200, 0.18);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.row input[type="checkbox"] {
+  width: 1.4rem;
+  height: 1.4rem;
+  accent-color: var(--yellow);
+  cursor: pointer;
+}
+
+.row input[type="range"] {
+  width: 55%;
+  accent-color: var(--yellow);
+  cursor: pointer;
+}
+
+.note {
+  margin: 0.9rem 0 1.4rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
+.panel-close {
+  padding: 0.6rem 1.6rem;
+  font-size: 1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: transparent;
+  border: 2px solid rgba(233, 226, 200, 0.5);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.panel-close:hover,
+.panel-close:focus-visible {
+  outline: none;
+  background: var(--yellow);
+  color: #111;
+  border-color: var(--yellow);
+}
+
+/* =====================================================
+   COPYRIGHT AND EFFECTS
+   ===================================================== */
+#copyright {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 0.9rem;
+  z-index: 20;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: rgba(233, 226, 200, 0.55);
+  pointer-events: none;
+}
+
+/* Two eyes that open in the dark */
+#eyes {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.eye {
+  position: absolute;
+  border-radius: 50%;
+  background: #f4f4ee;
+  box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.55);
+  opacity: 0;
+  transform: scaleY(0);
+  transition: transform 0.14s ease-out, opacity 0.1s linear;
+}
+
+.eye::after {
+  content: '';
+  position: absolute;
+  left: 38%;
+  top: 30%;
+  width: 34%;
+  height: 40%;
+  border-radius: 50%;
+  background: #14110e;
+}
+
+#eyes.show .eye { opacity: 1; }
+#eyes.slit .eye { transform: scaleY(0.1); }
+#eyes.open .eye { transform: scaleY(1); }
+
+#flash {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#flash.burst { opacity: 0.9; transition: opacity 0.03s linear; }
+#flash.fade { opacity: 0; transition: opacity 0.3s ease-out; }
+#flash.on { opacity: 1; transition: opacity 0.4s ease-in; }
+
+@media (max-width: 520px) {
+  #copyright { font-size: 0.7rem; right: 0.8rem; }
+}
