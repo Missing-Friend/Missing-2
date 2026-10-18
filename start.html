@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Missing 2 - The Basement</title>
+  <link rel="stylesheet" href="start.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- =====================================================
+         THE GAME
+         ===================================================== -->
+    <canvas id="game"></canvas>
+
+    <div id="hud">
+      <button id="obj-box" type="button" aria-label="Show objectives">
+        <span id="obj-left"></span>
+        <span id="obj-now"></span>
+      </button>
+      <button id="btn-info" class="round" type="button" aria-label="Info">I</button>
+      <button id="btn-menu" class="round" type="button" aria-label="Back to menu">&#8962;</button>
+      <div id="controls-hint">WASD / ARROWS: move &nbsp;&middot;&nbsp; E: interact</div>
+      <div id="prompt"></div>
+    </div>
+
+    <div id="dialog">
+      <div id="dlg-who"></div>
+      <div id="dlg-text"></div>
+      <div id="dlg-hint">E / click</div>
+    </div>
+
+    <div id="qte">
+      <div id="qte-title"></div>
+      <div id="qte-prompt"></div>
+      <div id="qte-bar">
+        <div id="qte-zone"></div>
+        <div id="qte-fill"></div>
+        <div id="qte-marker"></div>
+      </div>
+      <div id="qte-note"></div>
+    </div>
+
+    <div id="toast"></div>
+
+    <!-- =====================================================
+         PANELS (info, objectives, menu, choices, safe)
+         ===================================================== -->
+    <section id="panel-info" class="panel" role="dialog" aria-modal="true" aria-labelledby="info-title" hidden>
+      <div class="panel-box wide">
+        <h2 id="info-title">Info</h2>
+        <h3>Completed objectives</h3>
+        <ul id="info-done"></ul>
+        <h3>Achievements <span id="ach-count"></span></h3>
+        <ul id="info-ach"></ul>
+        <h3>Gathered info</h3>
+        <ul id="info-list"></ul>
+        <button class="panel-close" type="button">Close</button>
+      </div>
+    </section>
+
+    <section id="panel-obj" class="panel" role="dialog" aria-modal="true" aria-labelledby="obj-title" hidden>
+      <div class="panel-box">
+        <h2 id="obj-title">Objectives</h2>
+        <ul id="obj-list"></ul>
+        <button class="panel-close" type="button">Close</button>
+      </div>
+    </section>
+
+    <section id="panel-menu" class="panel" role="dialog" aria-modal="true" aria-labelledby="menu-q" hidden>
+      <div class="panel-box center">
+        <h2 id="menu-q">Are you sure you want to go back to the menu?</h2>
+        <div class="btn-row">
+          <button id="menu-yes" type="button">Yes</button>
+          <button id="menu-no" type="button">No</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-choice" class="panel" role="dialog" aria-modal="true" aria-labelledby="choice-q" hidden>
+      <div class="panel-box center">
+        <h2 id="choice-q"></h2>
+        <div class="btn-row">
+          <button id="choice-a" type="button"></button>
+          <button id="choice-b" type="button"></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-code" class="panel" role="dialog" aria-modal="true" aria-labelledby="code-q" hidden>
+      <div class="panel-box center">
+        <h2 id="code-q">The safe wants three digits.</h2>
+        <input id="code-input" type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="000" />
+        <p id="code-feedback"></p>
+        <div class="btn-row">
+          <button id="code-ok" type="button">Try it</button>
+          <button class="panel-close" type="button">Step back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         CUTSCENES
+         ===================================================== -->
+
+    <!-- The poster scene -->
+    <div id="poster-view">
+      <div id="pv-stage">
+        <div id="pv-wall"><span>nick waz here</span></div>
+        <div id="pv-poster">
+          <div class="pp-title">HAVE YOU SEEN THIS DUCK?</div>
+          <div class="pp-duck">&#129414;</div>
+          <div class="pp-small">Last seen: Ducks Pond. Answers to "Gerald".</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="face-view">
+      <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g id="face">
+          <rect width="800" height="450" fill="#e3b58c"/>
+          <path d="M0 0 H800 V130 Q620 60 400 85 Q180 60 0 130 Z" fill="#4a5a6b"/>
+          <path id="browL" d="M150 188 Q260 170 372 190" fill="none" stroke="#3a2a1e" stroke-width="16" stroke-linecap="round"/>
+          <path id="browR" d="M428 190 Q540 170 650 188" fill="none" stroke="#3a2a1e" stroke-width="16" stroke-linecap="round"/>
+          <ellipse cx="260" cy="262" rx="100" ry="50" fill="#f6f1ea"/>
+          <ellipse cx="540" cy="262" rx="100" ry="50" fill="#f6f1ea"/>
+          <g class="pupil" style="transform-origin: 260px 262px"><circle cx="260" cy="262" r="30" fill="#5b4632"/><circle cx="260" cy="262" r="14" fill="#050505"/></g>
+          <g class="pupil" style="transform-origin: 540px 262px"><circle cx="540" cy="262" r="30" fill="#5b4632"/><circle cx="540" cy="262" r="14" fill="#050505"/></g>
+          <path d="M160 262 Q260 210 360 262" fill="none" stroke="#7a553a" stroke-width="9"/>
+          <path d="M440 262 Q540 210 640 262" fill="none" stroke="#7a553a" stroke-width="9"/>
+          <path d="M400 210 Q392 310 372 352 Q400 366 428 352 Q408 310 400 210" fill="none" stroke="#b98b66" stroke-width="6" opacity="0.6"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- The Start-room stairs scene -->
+    <div id="stairs">
+      <div id="stairs-world"></div>
+      <div id="stairs-light"></div>
+      <div id="stairs-white"></div>
+    </div>
+
+    <!-- Zaps -->
+    <div id="shock"><span id="shock-text">ZAP!</span></div>
+
+    <!-- Glitch and old-TV shutdown -->
+    <div id="glitch-bars"></div>
+
+    <!-- =====================================================
+         THE INTRO
+         ===================================================== -->
+    <div id="pov">
+      <div id="pov-world">
+        <div class="pw-wall"></div>
+        <div class="pw-floor"></div>
+        <div class="pw-pipe"></div>
+        <div class="pw-bed"></div>
+        <div class="pw-box" style="left: 118vw; top: 106vh; width: 22vw; height: 26vh;"></div>
+        <div class="pw-box" style="left: 142vw; top: 114vh; width: 16vw; height: 18vh;"></div>
+        <div class="pw-door"></div>
+        <div class="pw-shaft"></div>
+        <div class="pw-window"></div>
+      </div>
+      <div id="pov-vignette"></div>
+      <div id="pov-lid-top"></div>
+      <div id="pov-lid-bottom"></div>
+      <p id="pov-sub"></p>
+    </div>
+
+    <div id="white">
+      <div id="intro-text">
+        <p id="t-title">Missing 2</p>
+        <p id="t-sub">The Basement</p>
+      </div>
+      <p id="sound-hint">click anywhere for sound</p>
+      <div id="resume-box" hidden>
+        <p>Continue from your save?</p>
+        <div class="btn-row">
+          <button id="btn-continue" type="button">Continue</button>
+          <button id="btn-new" type="button">New game</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="start.js"></script>
+</body>
+</html>
